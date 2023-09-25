@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Checkbox } from "./components/forms/checkbox";
 import { ProductCategoryRow } from "./components/products/ProductCategoryRow";
 import { ProductRow } from "./components/products/ProductRow";
+import { Input } from "./components/forms/Input";
 
 const PRODUCTS = [
   { category: "Fruits", price: "$1", stocked: true, name: "Apple" },
@@ -15,17 +16,17 @@ const PRODUCTS = [
 function App() {
   const [showStockedOnly, setShowStockedOnly] = useState(false);
   const [search, setSearch] = useState("");
-  // const visibleProducts = PRODUCTS.filter((product) => {
-  //   if (showStockedOnly && !product.stocked) {
-  //     return false;
-  //   }
+  const visibleProducts = PRODUCTS.filter((product) => {
+    if (showStockedOnly && !product.stocked) {
+      return false;
+    }
 
-  //   if (search && !product.name.includes(search)) {
-  //     return false;
-  //   }
+    if (search && !product.name.includes(search)) {
+      return false;
+    }
 
-  //   return true;
-  // });
+    return true;
+  });
 
   return (
     <>
@@ -35,7 +36,7 @@ function App() {
         showStockedOnly={showStockedOnly}
         onStockedOnlyChange={setShowStockedOnly}
       />
-      <ProductTable products={PRODUCTS} />
+      <ProductTable products={visibleProducts} />
     </>
   );
 }
@@ -49,7 +50,7 @@ function SearchBar({
   return (
     <>
       <div>
-        <input
+        <Input
           value={search}
           onChange={onSearchChange}
           placeholder="Rechercher..."
